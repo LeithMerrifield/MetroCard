@@ -8,7 +8,7 @@ class MetroLoop:
         self.locations = locations
         self.name = name
 
-    def getDistance(self, x: str, y: str) -> int:
+    def __getDistance(self, x: str, y: str) -> int:
         locationA = Location
         locationB = Location
 
@@ -21,8 +21,16 @@ class MetroLoop:
 
         return locationB.start - locationA.start
 
-    def getDistance(self, x: Location, y: Location) -> int:
-        return abs(y.start - x.start)
+    def getDistance(self, x, y) -> int:
+        if type(x) is Location:
+            return abs(y.start - x.start)
+        else:
+            return self.__getDistance(x, y)
+
+    def getTripPrice(self, station1: int, station2: int):
+        cost = self.getDistance("Stop {}".format(station1), "Stop {}".format(station2))
+        cost *= self.price
+        return cost
 
     def __repr__(self) -> str:
         return "{} {}".format(self.name, self.locations)
